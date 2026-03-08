@@ -66,6 +66,7 @@ jobs:
         run: |
           npm run report:generate
           ls allure-history || echo "No allure history found"
+          ls allure-report || echo "No allure report generated"
 
       - name: Copy Allure History to Report
         if: always()
