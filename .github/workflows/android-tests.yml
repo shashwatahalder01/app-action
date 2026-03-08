@@ -88,7 +88,7 @@ jobs:
         run: |
           if [ -d "allure-history" ]; then
             rm -rf allure-history/.git
-            cp -r ./allure-history ./allure-report || true
+            cp -r allure-history allure-report || true
           fi
 
       - name: 📊  Test allure history 
