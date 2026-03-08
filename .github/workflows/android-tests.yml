@@ -76,6 +76,10 @@ jobs:
           # allure_report: allure-report
           # keep_reports: 20 # Keeps history of the last 20 runs
 
+      - name: Fix Permissions and Cleanup
+        if: always()
+        run: sudo rm -rf allure-history/.git
+
       - name: 🚀 Deploy Allure Report to GitHub Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v4
