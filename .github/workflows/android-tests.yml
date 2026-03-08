@@ -22,7 +22,7 @@ permissions:
 
 # workflow environment variables
 env:
-  # FORCE_COLOR: 1
+  FORCE_COLOR: 1
   # SHA: ${{ github.event.pull_request.head.sha }}
   # LOCAL_APP: ./apk/test.apk
   # SENDGRID_FROM: ${{secrets.SENDGRID_FROM}}
@@ -39,64 +39,50 @@ jobs:
     timeout-minutes: 20
 
     steps:
-      # - name: Checkout testing repo
-      #   uses: actions/checkout@v4
+      - name: Checkout testing repo
+        uses: actions/checkout@v4
 
-      # - name: Use desired version of NodeJS
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: 24
-      #     cache: npm
-
-      - name: ⬇️ Download Test APK
-        # continue-on-error: true
+      - name: Install Dependencies
         run: |
-          gh release download \
-          --repo raj0xQA/app-action \
-          --pattern "bstack*.apk" \
-          --dir "apk" \
-          --clobber
+          npm ci || npm i
 
-      - name: Verify APK existence
-        # continue-on-error: true
+      - name: Run tests
         run: |
-          if [ -f "apk/bstack2.apk" ]; then
-            echo "✅ APK found! Proceeding..."
-            ls -lh apk/bstack2.apk
-          else
-            echo "❌ Error: APK not found at apk/bstack2.apk"
-            exit 1
-          fi
-
-      # - name: ⬇️ Check Downloaded Test APK
-      #   continue-on-error: true
-      #   run: |
-      #     ls -lh apk/bstack.apk
-
-
-      
-
-      # - name: Install Dependencies
-      #   run: |
-      #     npm ci || npm i
-      # - name: Run tests
-      #   run: |
-      #     npm run test
+          npm run test
 
       # - name: 📊 Generate Test report
       #   run: |
       #     npm run report:generate
       #     ls -lh allure-report
 
-      # - name: 🚀 Deploy Allure Report to GitHub Pages
-      #   if: always()
-      #   uses: peaceiris/actions-gh-pages@v4
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     publish_dir: ./allure-report
 
+    # --- START OF ALLURE HISTORY LOGIC ---
 
+      - name: Get Allure History
+        if: always()
+        uses: actions/checkout@v4
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages-dir
 
+      - name: Generate Allure Report
+        if: always()
+        uses: simple-elf/allure-report-action@v1.13
+        with:
+          gh_pages: gh-pages-dir
+          allure_results: allure-results
+          allure_history: allure-history
+          # allure_report: allure-report
+          # keep_reports: 20 # Keeps history of the last 20 runs
+
+      - name: 🚀 Deploy Allure Report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
 
 
 
@@ -146,48 +132,4 @@ jobs:
       #       echo "Emulator started and boot completed!" && set +e && true; EXIT_CODE=$?; set -e; echo "wdio_exit_code=$EXIT_CODE" >> $GITHUB_OUTPUT; exit $EXIT_CODE
 
 
-    #   - name: ✉️ Send Email Notification on Failure
-    #     if: always() && failure() && (steps.emulator.outcome == 'skipped') || (steps.emulator.outcome == 'failure' && steps.emulator.outputs.wdio_exit_code == '')
-    #     id: emaild
-    #     run: |
-    #       echo "📧 Mail sent"
-    #       echo "steps.emulator.outcome = ${{ steps.emulator.outcome }}"
-    #       echo "steps.emulator.outcome.outputs = ${{ steps.emulator.outcome.outputs }}"
-
-
-
-    # # if: failure() && steps.emulator.outcome == 'failure' || steps.emulator.outcome == 'failure' && steps.emulator.outputs.wdio_exit_code == ''
-
-    # # - name: Archive test artifacts (screenshots, HTML snapshots, Reports)
-    # #   if: always()
-    # #   uses: actions/upload-artifact@v4
-    # #   with:
-    # #     name: test-artifact
-    # #     path: |
-    # #       screencasts
-    # #     if-no-files-found: ignore
-    # #     retention-days: 1
-
-    # # script: |
-    # # echo "Emulator started and boot completed!" && set +e && npx wdio run wdio.conf.js; EXIT_CODE=$?; set -e; echo "wdio_exit_code=$EXIT_CODE" >> $GITHUB_OUTPUT; exit $EXIT_CODE
-
-    # # - name: Check WDIO result
-    # #   if: always()
-    # #   run: |
-    # #     echo "WDIO exit code: ${{ steps.emu.outputs.wdio_exit_code}}"
-    # #     echo "WDIO exit code: ${{ steps.emu.outcome }}"
-
-    # # - name: Send Email
-    # #   if: failure() && steps.emu.outcome == 'failure' && steps.emu.outputs.wdio_exit_code == ''
-    # #   run: |
-    # #     node ./utils/sendAcionfailMail.js
-
-    # # - name: Handle emulator failure
-    # #   if: failure() && steps.emu.outcome == 'failure' && steps.emu.outputs.wdio_exit_code == ''
-    # #   run: |
-    # #     echo "Step failed due to emulator issues (not test failures)"
-
-    # # - name: Handle emulator failure
-    # #   if: failure() && steps.emu.outcome == 'failure' && steps.emu.outputs.wdio_exit_code == '1'
-    # #   run: |
-    # #     echo "test failed(not test failures)"
+  

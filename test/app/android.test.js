@@ -1,18 +1,42 @@
-
-describe('Mobile browser search', () => {
-
-  it('check element', async () => {
-    expect(2+2).toEqual(4);
-    // const abc = await $('android=new UiSelector().text("My Currency Exchange")');
-    // expect(await abc.isDisplayed()).toBe(true, "My Currency Exchange not found.");
+describe("Android tests", () => {
+  it("should add two numbers", () => {
+    expect(2 + 2).toEqual(4);
   });
-  
+
+  // it("check element", async () => {
+  // const abc = await $('android=new UiSelector().text("My Currency Exchange")');
+  // expect(await abc.isDisplayed()).toBe(true, "My Currency Exchange not found.");
+  // });
+
+  // it("andriod button test", async () => {
+  //   await browser.pause(1000);
+  //   const abc = await $(`android=new UiSelector().textContains("ADD")`);
+  //   expect(await abc.isDisplayed()).toBe(true, "Push notification not found.");
+  // });
+
+  // it("should navigate to Google and verify title", async () => {
+  //   await browser.url("https://www.google.com");
+  //   await browser.pause(1000);
+  //   await expect(browser).toHaveTitle("Google");
+  //   const searchBox = await $('textarea[name="q"]');
+  //   await searchBox.setValue("WebdriverIO");
+  //   await browser.keys("Enter");
+
+  //   // Wait for results and verify
+  //   // await browser.waitUntil(async () => {
+  //   //   const title = await browser.getTitle();
+  //   //   return title.includes('WebdriverIO');
+  //   // }, { timeout: 5000, timeoutMsg: 'Search results page did not load' });
+
+  //   // await browser.pause(1000);
+  //   expect(2 + 2).toEqual(4);
+  // });
 
   // it('should open Google and search for WebdriverIO', async () => {
   // 1. Navigate to Google
   // await browser.url('https://www.google.com');
 
-  // expect(2+2).toEqual(5);  
+  // expect(2+2).toEqual(5);
   // await browser.pause(1000);
 
   // // 2. Accept cookies if the prompt appears (common on mobile)
@@ -52,67 +76,3 @@ describe('Mobile browser search', () => {
   // expect(await browser.getTitle()).toContain('WebdriverIO');
   // });
 });
-
-
-
-// describe("push notification", () => {
-
-//   it("andriod push notification test", async () => {
-
-//     await browser.pause(4000);
-//     // await driver.context("NATIVE_APP");
-//     // await driver.findElement(By.xpath("//android.widget.Button[@text='OK']")).click();
-//     const abc = await $(`android=new UiSelector().textContains("ADD")`);
-//     expect(await abc.isDisplayed()).toBe(true, "Push notification not found.");
-//   });
-
-// it("andriod push notification test", async () => {
-//   await browser.pause(1000);
-//   const abc = await $(`android=new UiSelector().textContains("ADD")`);
-//   expect(await abc.isDisplayed()).toBe(true, "Push notification not found.");
-// });
-// it("andriod push notification test", async () => {
-//   await browser.pause(1000);
-//   const abc = await $(`android=new UiSelector().textContains("ADD")`);
-//   expect(await abc.isDisplayed()).toBe(true, "Push notification not found.");
-// });
-// it("andriod push notification test", async () => {
-//   await browser.pause(1000);
-//   const abc = await $(`android=new UiSelector().textContains("ADD")`);
-//   expect(await abc.isDisplayed()).toBe(true, "Push notification not found.");
-// });
-// it("andriod push notification test", async () => {
-//   await browser.pause(1000);
-//   const abc = await $(`android=new UiSelector().textContains("ADD")`);
-//   expect(await abc.isDisplayed()).toBe(true, "Push notification not found.");
-// });
-// it("andriod push notification test", async () => {
-//   await browser.pause(1000);
-//   const abc = await $(`android=new UiSelector().textContains("ADD")`);
-//   expect(await abc.isDisplayed()).toBe(true, "Push notification not found.");
-// });
-// });
-
-
-
-// describe('Math', () => { it('should add two numbers', () => { expect(2+2).toEqual(4); }); });
-
-// describe('Browser test', () => {
-//   it('should navigate to Google and verify title', async () => {
-//     await browser.url('https://www.google.com');
-//     await browser.pause(1000);
-//     await expect(browser).toHaveTitle('Google');
-//     const searchBox = await $('textarea[name="q"]');
-//     await searchBox.setValue('WebdriverIO');
-//     await browser.keys('Enter');
-
-//     // Wait for results and verify
-//     // await browser.waitUntil(async () => {
-//     //   const title = await browser.getTitle();
-//     //   return title.includes('WebdriverIO');
-//     // }, { timeout: 5000, timeoutMsg: 'Search results page did not load' });
-
-//     // await browser.pause(1000);
-//     expect(2 + 2).toEqual(4);
-//   });
-// });
