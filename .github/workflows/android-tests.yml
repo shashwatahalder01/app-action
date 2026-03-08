@@ -66,6 +66,9 @@ jobs:
         with:
           ref: gh-pages
           path: allure-history
+          sparse-checkout: |
+            allure-history
+          sparse-checkout-cone-mode: false
 
       - name: test allure history
         run: |
