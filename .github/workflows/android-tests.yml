@@ -23,6 +23,7 @@ permissions:
 # workflow environment variables
 env:
   FORCE_COLOR: 1
+  TEST_ENV: ci
   # SHA: ${{ github.event.pull_request.head.sha }}
   # LOCAL_APP: ./apk/test.apk
   # SENDGRID_FROM: ${{secrets.SENDGRID_FROM}}
@@ -50,11 +51,6 @@ jobs:
         run: |
           npm run test
 
-      # - name: 📊 Generate Test report
-      #   run: |
-      #     npm run report:generate
-      #     ls -lh allure-report
-
 
     # --- START OF ALLURE HISTORY LOGIC ---
 
@@ -64,21 +60,22 @@ jobs:
         continue-on-error: true
         with:
           ref: gh-pages
-          path: allure-previous-history
+          path: allure-history
 
-      - name: Generate Allure Report
-        if: always()
-        uses: simple-elf/allure-report-action@v1.13
-        with:
-          gh_pages: allure-previous-history
-          allure_results: allure-results
-          allure_history: allure-history
-          # allure_report: allure-report
-          # keep_reports: 20 # Keeps history of the last 20 runs
+      - name: 📊 Generate Test report
+        run: |
+          npm run report:generate
 
-      - name: Fix Permissions and Cleanup
+      - name: Copy Allure History to Report
         if: always()
-        run: sudo rm -rf allure-history/.git
+        run: 
+          if [ -d "allure-history" ]; then
+            cp -r allure-history allure-report || true
+          fi
+
+      # - name: Fix Permissions and Cleanup
+      #   if: always()
+      #   run: sudo rm -rf allure-history/.git
 
       - name: 🚀 Deploy Allure Report to GitHub Pages
         if: always()
@@ -86,7 +83,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: allure-history
+          publish_dir: allure-report
 
 
 

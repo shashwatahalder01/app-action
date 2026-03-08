@@ -25,6 +25,8 @@ export const config = {
       "allure",
       {
         outputDir: "allure-results",
+        // historyPath: "allure-history.jsonl",
+        // historyLimit: 20,
       },
     ],
   ],
@@ -33,13 +35,7 @@ export const config = {
     {
       browserName: "chrome",
       "goog:chromeOptions": {
-        args: [
-          "--no-sandbox",
-          "--disable-dev-shm-usage",
-          "--headless",
-          "--disable-gpu",
-          "--window-size=1920,1080",
-        ],
+        args: ["--no-sandbox", "--disable-dev-shm-usage", "--headless", "--disable-gpu", "--window-size=1920,1080"],
       },
     },
   ],
@@ -77,5 +73,4 @@ export const config = {
   //   // }
   // },
   // ],
-
 };

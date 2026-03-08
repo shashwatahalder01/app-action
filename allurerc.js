@@ -1,0 +1,10 @@
+import { defineConfig } from "allure";
+const { TEST_ENV } = process.env;
+const isCI = TEST_ENV === 'ci';
+
+export default defineConfig({
+  name: "my-report",
+  output: "allure-report",
+  historyPath: isCI ? "allure-history/allure-history.jsonl" : undefined,
+  historyLimit: 10,
+});
