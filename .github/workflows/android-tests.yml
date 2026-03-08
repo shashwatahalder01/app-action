@@ -43,6 +43,12 @@ jobs:
       - name: Checkout testing repo
         uses: actions/checkout@v4
 
+      - name: 🐢 Use Desired Version of NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
       - name: Install Dependencies
         run: |
           npm ci || npm i
@@ -61,23 +67,30 @@ jobs:
           ref: gh-pages
           path: allure-history
 
-      - name: 📊 Generate Test report
+      - name: test allure history
         run: |
-          ls allure-report || echo "No allure history found"
+          ls
+          echo "Contents of allure-history directory:"
+          ls allure-history || echo "No allure history found"
 
-      - name: 📊 Generate Test report
+      - name: Generate Test report
         run: |
           npm run report:generate
+
+      - name: test allure history
+        run: |
+          ls
+          echo "Contents of allure-history directory:"
           ls allure-history || echo "No allure history found"
 
       - name: Copy Allure History to Report
         if: always()
         run: |
           if [ -d "allure-history" ]; then
-            cp -r allure-history allure-report || true
+            cp -r ./allure-history/ ./allure-report/ || true
           fi
 
-      - name: 📊 Generate Test report
+      - name: 📊  Test allure history 
         run: |
           ls allure-report/allure-history || echo "No allure history found"
 
