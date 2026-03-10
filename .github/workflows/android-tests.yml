@@ -72,7 +72,7 @@ jobs:
           ref: gh-pages
           path: aaaa
           sparse-checkout: |
-            allure-history
+            allure-history/allure-history.jsonl
           sparse-checkout-cone-mode: false
 
       - name: test workspace

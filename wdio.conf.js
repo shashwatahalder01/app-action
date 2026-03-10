@@ -2,7 +2,7 @@ import "dotenv/config";
 import fs from "fs";
 import SlackReporter from "@moroo/wdio-slack-reporter";
 
-const { SLACK_WEBHOOK_URL } = process.env;
+const { SLACK_CHANNEL, SLACK_BOT_TOKEN } = process.env;
 
 export const config = {
   runner: "local",
@@ -32,16 +32,19 @@ export const config = {
         // historyLimit: 20,
       },
     ],
-    // [
-    //   SlackReporter,
-    //   {
-    //     slackOptions: {
-    //       type: "web-api",
-    //       channel: process.env.SLACK_CHANNEL || "Cxxxxxxxxxx",
-    //       token: process.env.SLACK_BOT_TOKEN || "xoxb-xxxxxxxxxx-xxxxxx...",
-    //     },
-    //   },
-    // ],
+    [
+      SlackReporter,
+      {
+        slackOptions: {
+          type: "web-api",
+          channel: SLACK_CHANNEL,
+          token: SLACK_BOT_TOKEN,
+        },
+        title: "E2E Test Results",
+        notifyTestFinishMessage: true,
+        uploadScreenshotOfFailedCase: true,
+      },
+    ],
   ],
 
   capabilities: [
