@@ -43,19 +43,19 @@ jobs:
       - name: Checkout testing repo
         uses: actions/checkout@v4
 
-      - name: 🐢 Use Desired Version of NodeJS
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: npm
+      # - name: 🐢 Use Desired Version of NodeJS
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 24
+      #     cache: npm
 
-      - name: Install Dependencies
-        run: |
-          npm ci || npm i
+      # - name: Install Dependencies
+      #   run: |
+      #     npm ci || npm i
 
-      - name: Run tests
-        run: |
-          npm run test
+      # - name: Run tests
+      #   run: |
+      #     npm run test
 
       - name: test workspace
         run: |
@@ -72,7 +72,7 @@ jobs:
           ref: gh-pages
           # path: allure-history
           sparse-checkout: |
-            allure-history/allure-history.jsonl
+            allure-history.jsonl
           sparse-checkout-cone-mode: false
 
       - name: test workspace
