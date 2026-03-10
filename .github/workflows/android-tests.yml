@@ -31,6 +31,8 @@ env:
   # SENDGRID_PORT: ${{secrets.SENDGRID_PORT}}
   # SENDGRID_USER: ${{secrets.SENDGRID_USER}}
   # SENDGRID_PASS: ${{secrets.SENDGRID_PASS}}
+  SLACK_CHANNEL: ${{secrets.SLACK_CHANNEL}}
+  SLACK_BOT_TOKEN: ${{secrets.SLACK_BOT_TOKEN}}
   GITHUB_TOKEN: ${{ secrets.GT_TOKEN }}
 
 jobs:
@@ -43,11 +45,11 @@ jobs:
       - name: Checkout testing repo
         uses: actions/checkout@v4
 
-      # - name: 🐢 Use Desired Version of NodeJS
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: 24
-      #     cache: npm
+      - name: 🐢 Use Desired Version of NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
 
       - name: Install Dependencies
         run: |
