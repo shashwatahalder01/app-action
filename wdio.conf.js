@@ -32,16 +32,16 @@ export const config = {
         // historyLimit: 20,
       },
     ],
-    [
-      SlackReporter,
-      {
-        slackOptions: {
-          type: "web-api",
-          channel: process.env.SLACK_CHANNEL || "Cxxxxxxxxxx",
-          token: process.env.SLACK_BOT_TOKEN || "xoxb-xxxxxxxxxx-xxxxxx...",
-        },
-      },
-    ],
+    // [
+    //   SlackReporter,
+    //   {
+    //     slackOptions: {
+    //       type: "web-api",
+    //       channel: process.env.SLACK_CHANNEL || "Cxxxxxxxxxx",
+    //       token: process.env.SLACK_BOT_TOKEN || "xoxb-xxxxxxxxxx-xxxxxx...",
+    //     },
+    //   },
+    // ],
   ],
 
   capabilities: [
