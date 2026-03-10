@@ -1,5 +1,8 @@
 import "dotenv/config";
 import fs from "fs";
+// const slack = require('wdio-slack-service');
+
+const { SLACK_WEBHOOK_URL } = process.env;
 
 export const config = {
   runner: "local",
@@ -39,6 +42,18 @@ export const config = {
       },
     },
   ],
+
+  // slack notification configuration
+  // services: [
+  //   [
+  //     slack,
+  //     {
+  //       webHookUrl: SLACK_WEBHOOK_URL, // Used to post notification to a particular channel
+  //       notifyOnlyOnFailure: true, // Send notification only on test failure
+  //       messageTitle: "<Wdio Test Results>", // Name of the notification
+  //     },
+  //   ],
+  // ],
 
   // port: 4723,
   // services: [

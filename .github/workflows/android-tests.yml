@@ -65,8 +65,7 @@ jobs:
         continue-on-error: true
         with:
           ref: gh-pages
-          clean: false
-          path: .
+          path: allure-history
           sparse-checkout: |
             allure-history
           sparse-checkout-cone-mode: false
