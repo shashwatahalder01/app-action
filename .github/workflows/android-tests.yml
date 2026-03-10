@@ -74,7 +74,7 @@ jobs:
         run: |
           ls
           echo "Contents of allure-history directory:"
-          ls allure-history || echo "No allure history found"
+          ls -R allure-history || echo "No allure history found"
 
       - name: Generate Test report
         run: |
@@ -84,7 +84,7 @@ jobs:
         run: |
           ls
           echo "Contents of allure-history directory:"
-          ls allure-history || echo "No allure history found"
+          ls -R allure-history || echo "No allure history found"
 
       - name: Copy Allure History to Report
         if: always()
@@ -96,7 +96,7 @@ jobs:
 
       - name: 📊  Test allure history 
         run: |
-          ls allure-report/allure-history || echo "No allure history found"
+          ls -R allure-report/allure-history || echo "No allure history found"
 
       - name: 🚀 Deploy Allure Report to GitHub Pages
         if: always()
