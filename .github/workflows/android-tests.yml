@@ -49,13 +49,13 @@ jobs:
       #     node-version: 24
       #     cache: npm
 
-      # - name: Install Dependencies
-      #   run: |
-      #     npm ci || npm i
+      - name: Install Dependencies
+        run: |
+          npm ci || npm i
 
-      # - name: Run tests
-      #   run: |
-      #     npm run test
+      - name: Run tests
+        run: |
+          npm run test
 
       - name: test workspace
         run: |
@@ -101,12 +101,13 @@ jobs:
         run: |
           if [ -d "allure-history" ]; then
             rm -rf allure-history/.git
-            cp -r allure-history allure-report || true
+            cp  allure-history/allure-history.jsonl allure-report || true
           fi
+       # cp -r allure-history allure-report || true
 
       - name: 📊  Test allure history 
         run: |
-          ls -R allure-report/allure-history || echo "No allure history found"
+          ls -R allure-report || echo "No allure history found"
 
       - name: 🚀 Deploy Allure Report to GitHub Pages
         if: always()
