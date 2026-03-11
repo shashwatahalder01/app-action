@@ -74,8 +74,14 @@ jobs:
           ref: gh-pages
           path: allure-history
           sparse-checkout: |
-            allure-history.jsonl
+            allure-history
           sparse-checkout-cone-mode: false
+
+      - name: 📥 Remove redundent folder
+        if: always()
+        run: |
+          mv allure-history/allure-history/* allure-history/ || true
+          rmdir allure-history/allure-history || true
 
       - name: test workspace
         run: |
@@ -103,10 +109,10 @@ jobs:
         run: |
           if [ -d "allure-history" ]; then
             rm -rf allure-history/.git
-            cp  allure-history/allure-history.jsonl allure-report || true
+            cp -r allure-history allure-report || true
           fi
        # cp -r allure-history allure-report || true
-
+# cp  allure-history/allure-history.jsonl allure-report || true
       - name: 📊  Test allure history 
         run: |
           ls -R allure-report || echo "No allure history found"
