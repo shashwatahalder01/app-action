@@ -72,7 +72,7 @@ jobs:
             allure-history
           sparse-checkout-cone-mode: false
 
-      - name: 📥 Remove allure-history redundent folder
+      - name: Remove allure-history redundent nested folder
         if: always()
         run: |
           mv allure-history/allure-history/* allure-history/ || true
@@ -82,11 +82,10 @@ jobs:
         run: |
           npm run report:generate
 
-      - name: Copy Allure History to Report
+      - name: Copy Allure History to Allure Report
         if: always()
         run: |
           if [ -d "allure-history" ]; then
-            rm -rf allure-history/.git
             cp -r allure-history allure-report || true
           fi
 
