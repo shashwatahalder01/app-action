@@ -77,6 +77,7 @@ jobs:
         run: |
           mv allure-history/allure-history/* allure-history/ || true
           rmdir allure-history/allure-history || true
+          rm -rf allure-history/.git
           ls -a allure-history
 
       - name: Generate Test report
