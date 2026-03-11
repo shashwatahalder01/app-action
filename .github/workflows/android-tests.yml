@@ -89,7 +89,7 @@ jobs:
           if [ -d "allure-history" ]; then
             cp -r allure-history allure-report || true
           fi
-          ls -a allure-report
+          ls -a allure-report/allure-history
 
       - name: 🚀 Deploy Allure Report to GitHub Pages
         if: always()
