@@ -1,19 +1,23 @@
 import "dotenv/config";
+import * as os from "os";
+import path from "path";
 import fs from "fs";
-import SlackReporter from "@moroo/wdio-slack-reporter";
 
-const { SLACK_CHANNEL, SLACK_BOT_TOKEN } = process.env;
+const { GITHUB_REPOSITORY, GITHUB_RUN_NUMBER, GITHUB_RUN_ID } = process.env;
+
 
 export const config = {
   runner: "local",
-  specs: ["./test/app/**/*.js"],
+  specs: ["./tests/**/*.js"],
   maxInstances: 1,
   logLevel: "error",
   waitforTimeout: 10000,
   framework: "mocha",
   mochaOpts: {
     timeout: 120000,
+    // retries: 2,
   },
+  // specFileRetries: 1,
   reporterSyncTimeout: 30000,
   reporters: [
     [
@@ -24,27 +28,47 @@ export const config = {
         showPreface: false,
       },
     ],
-    [
-      "allure",
-      {
-        outputDir: "allure-results",
-        // historyPath: "allure-history.jsonl",
-        // historyLimit: 20,
-      },
-    ],
     // [
-    //   SlackReporter,
+    //   "allure",
     //   {
-    //     slackOptions: {
-    //       type: "web-api",
-    //       channel: SLACK_CHANNEL,
-    //       token: SLACK_BOT_TOKEN,
-    //     },
-    //     title: "E2E Test Results",
-    //     notifyTestFinishMessage: true,
-    //     uploadScreenshotOfFailedCase: true,
+    //     outputDir: "allure-results",
     //   },
     // ],
+    [
+      "ctrf-json",
+      {
+        outputDir: "ctrf",
+        minimal: false,
+        testType: "E2E",
+        appName: "Chatway",
+        // appVersion: '1.0.0',
+        osPlatform: os.platform(),
+        osRelease: os.release(),
+        osVersion: os.version(),
+        buildName: "App Automation Tests",
+        buildNumber: GITHUB_RUN_NUMBER || "unknown",
+        buildUrl: `https://github.com/${GITHUB_REPOSITORY || "unknown"}/actions/runs/${GITHUB_RUN_ID || "unknown"}`,
+      },
+    ],
+    //   [
+    //     SlackReporter,
+    //     {
+    //       slackOptions: {
+    //         type: "web-api",
+    //         channel: SLACK_CHANNEL,
+    //         token: SLACK_BOT_TOKEN,
+    //         uploadScreenshotOfFailedCase: true,
+    //         notifyDetailResultThread: true,
+    //         filterForDetailResults: ["failed"],
+    //       },
+
+    //       title: "E2E Test Suite",
+    //       resultsUrl: "http://localhost:3000/allure-results",
+    //       notifyTestStartMessage: false,
+    //       notifyTestFinishMessage: false,
+    //       notifyFailedCase: true,
+    //     },
+    //   ],
   ],
 
   capabilities: [
@@ -56,7 +80,13 @@ export const config = {
     },
   ],
 
-  // slack notification configuration
+  afterTest: async function (test, context, { error, passed }) {
+    // if (!passed) {
+    //   // suiteFailed = true;
+    //   const screenshot = await browser.takeScreenshot();
+    //   SlackReporter.uploadFailedTestScreenshot(screenshot);
+    // }
+  },
 
   // port: 4723,
   // services: [

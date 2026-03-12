@@ -1,0 +1,51 @@
+// test/specs/example.e2e.js
+describe("My Login Application", () => {
+  it.skip("should login with valid credentials", async () => {
+    // Navigate to the login page
+    await browser.url("https://the-internet.herokuapp.com/login");
+
+    // Enter username
+    const username = await $("#username");
+    await username.setValue("tomsmith");
+
+    // Enter password
+    const password = await $("#password");
+    await password.setValue("SuperSecretPassword!");
+
+    // Click login button
+    const loginBtn = await $('button[type="submit"]');
+    await loginBtn.click();
+
+    // Verify successful login
+    const successMessage = await $(".flash.success");
+    await expect(successMessage).toBeDisplayed();
+    const successMessageText = await successMessage.getText();
+    await expect(successMessageText).toContain("You logged into a secure area!");
+  });
+
+  it.skip("should display error with invalid credentials", async () => {
+    await browser.url("https://the-internet.herokuapp.com/login");
+
+    await $("#username").setValue("wronguser");
+    await $("#password").setValue("wrongpass");
+    await $('button[type="submit"]').click();
+
+    const errorMessage = await $(".flash.error");
+    await expect(errorMessage).toBeDisplayed();
+    const errorMessageText = await errorMessage.getText();
+    await expect(errorMessageText).toContain("Your username is invalid!!");
+  });
+
+  it.skip("should display error with invalid user", async () => {
+    await browser.url("https://the-internet.herokuapp.com/login");
+
+    await $("#username").setValue("wronguser");
+    await $("#password").setValue("wrongpass");
+    await $('button[type="submit"]').click();
+
+    const errorMessage = await $(".flash.error");
+    await expect(errorMessage).toBeDisplayed();
+    const errorMessageText = await errorMessage.getText();
+    await expect(errorMessageText).toContain("Your username is invalid!!");
+  });
+});

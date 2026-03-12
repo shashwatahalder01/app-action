@@ -1,6 +1,32 @@
-describe("Android tests", () => {
+describe("Number tests", () => {
   it("should add two numbers", () => {
     expect(2 + 2).toEqual(4);
+  });
+
+  it("should add three numbers", () => {
+    let randomBoolean = Math.random() >= 0.5;
+    if (randomBoolean) {
+      expect(2 + 2 + 1).toEqual(5);
+    } else {
+      expect(2 + 2 + 1).toEqual(4);
+    }
+  });
+
+  it("should add three numbers", () => {
+    let randomBoolean = Math.random() >= 0.5;
+    if (randomBoolean) {
+      expect(2 + 2 + 1).toEqual(5);
+    } else {
+      expect(2 + 2 + 1).toEqual(4);
+    }
+  });
+
+  it.skip("should add four numbers", () => {
+    expect(2 + 2 + 1 + 1).toEqual(6);
+  });
+
+  it("should add five numbers", () => {
+    expect(2 + 2 + 1 + 1 + 1).toEqual(6);
   });
 
   // it("check element", async () => {

@@ -14,11 +14,14 @@
     "test:report": "npm run test && npm run report:serve",
     "test": "npx wdio run wdio.conf.js",
     "mail:action-fail": "node ./utils/send-action-fail-mail.js",
+    "slack:report": "node ./utils/slack-test-report.js",
+    "update:packages": "npx npm-check-updates -u",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier . --check",
     "format:fix": "prettier . --write",
-    "clean": "rm -rf allure-results allure-report appium-logs screenshots screencasts"
+    "report:clean": "rm -rf allure-results allure-report appium-logs screenshots screencasts",
+    "test:ci": "npx slack-ctrf results ./ctrf/ctrf-tests-android.test.json"
   },
   "repository": {
     "type": "git",
@@ -32,7 +35,6 @@
   },
   "homepage": "https://github.com/Chatway-app/qa-chatway-mobile#readme",
   "devDependencies": {
-    "@moroo/wdio-slack-reporter": "^9.0.0",
     "@wdio/allure-reporter": "^9.25.0",
     "@wdio/appium-service": "^9.25.0",
     "@wdio/cli": "^9.25.0",
@@ -45,6 +47,8 @@
     "dotenv": "^17.3.1",
     "nodemailer": "^8.0.2",
     "npm-check-updates": "^19.6.3",
+    "slack-ctrf": "^0.0.31",
+    "wdio-ctrf-json-reporter": "^0.0.16",
     "webdriverio": "^9.25.0"
   }
 }

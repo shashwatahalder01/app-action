@@ -24,16 +24,26 @@ permissions:
 env:
   FORCE_COLOR: 1
   TEST_ENV: ci
-  # SHA: ${{ github.event.pull_request.head.sha }}
   # LOCAL_APP: ./apk/test.apk
+  # SendGrid environment variables for email notifications
   # SENDGRID_FROM: ${{secrets.SENDGRID_FROM}}
   # SENDGRID_HOST: ${{secrets.SENDGRID_HOST}}
   # SENDGRID_PORT: ${{secrets.SENDGRID_PORT}}
   # SENDGRID_USER: ${{secrets.SENDGRID_USER}}
   # SENDGRID_PASS: ${{secrets.SENDGRID_PASS}}
+  # GitHub environment variables for Slack notifications and report generation
+  # SHA: ${{ github.event.pull_request.head.sha }}
+  GITHUB_REPOSITORY: ${{github.repository}}
+  GITHUB_RUN_NUMBER: ${{github.run_number}}
+  GITHUB_RUN_ID: ${{github.run_id}}
+  ACTOR: ${{github.actor}}
+  WORKFLOW: ${{github.workflow}}
+  EVENT_NAME: ${{github.event_name}}
+  GITHUB_TOKEN: ${{secrets.GT_TOKEN}}
+  # Slack environment variables for notifications
   SLACK_CHANNEL: ${{secrets.SLACK_CHANNEL}}
-  SLACK_BOT_TOKEN: ${{secrets.SLACK_BOT_TOKEN}}
-  GITHUB_TOKEN: ${{ secrets.GT_TOKEN }}
+  SLACK_OAUTH_TOKEN: ${{secrets.SLACK_OAUTH_TOKEN}}
+  CTRF_SKIP_FOOTER: true
 
 jobs:
   test:
@@ -43,13 +53,12 @@ jobs:
 
     steps:
       - name: Checkout testing repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: 🐢 Use Desired Version of NodeJS
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: npm
 
       - name: Install Dependencies
         run: |
@@ -59,47 +68,52 @@ jobs:
         run: |
           npm run test
 
-      # --- START OF ALLURE HISTORY LOGIC ---
-
-      - name: 📥 Get Allure History
-        if: always()
-        uses: actions/checkout@v4
-        continue-on-error: true
-        with:
-          ref: gh-pages
-          path: allure-history
-          sparse-checkout: |
-            allure-history
-          sparse-checkout-cone-mode: false
-
-      - name: ✖ Remove allure-history redundent nested folder
-        if: always()
+      - name: Send Slack notification with test report
         run: |
-          mv allure-history/allure-history/* allure-history/ || true
-          rmdir allure-history/allure-history || true
-          rm -rf allure-history/.git
-          ls -a allure-history
+          npm run slack:report
 
-      - name: Generate Test report
-        run: |
-          npm run report:generate
 
-      - name: ⧉ Copy Allure History to Allure Report
-        if: always()
-        run: |
-          if [ -d "allure-history" ]; then
-            cp -r allure-history allure-report || true
-          fi
-          ls -a allure-report/allure-history
+      # # --- START OF ALLURE HISTORY LOGIC ---
 
-      - name: 🚀 Deploy Allure Report to GitHub Pages
-        if: always()
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: allure-report
-          keep_files: false
+      # - name: 📥 Get Allure History
+      #   if: always()
+      #   uses: actions/checkout@v6
+      #   continue-on-error: true
+      #   with:
+      #     ref: gh-pages
+      #     path: allure-history
+      #     sparse-checkout: |
+      #       allure-history
+      #     sparse-checkout-cone-mode: false
+
+      # - name: ✖ Remove allure-history redundent nested folder
+      #   if: always()
+      #   run: |
+      #     mv allure-history/allure-history/* allure-history/ || true
+      #     rmdir allure-history/allure-history || true
+      #     rm -rf allure-history/.git
+      #     ls -a allure-history
+
+      # - name: Generate Test report
+      #   run: |
+      #     npm run report:generate
+
+      # - name: ⧉ Copy Allure History to Allure Report
+      #   if: always()
+      #   run: |
+      #     if [ -d "allure-history" ]; then
+      #       cp -r allure-history allure-report || true
+      #     fi
+      #     ls -a allure-report/allure-history
+
+      # - name: 🚀 Deploy Allure Report to GitHub Pages
+      #   if: always()
+      #   uses: peaceiris/actions-gh-pages@v4
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_branch: gh-pages
+      #     publish_dir: allure-report
+      #     keep_files: false
 
       # - name: Enable KVM
       #   run: |

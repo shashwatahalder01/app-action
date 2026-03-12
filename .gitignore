@@ -44,6 +44,7 @@ test-output/
 allure-results/
 allure-report/
 allure-history/
+ctrf/
 *.lcov
 
 # Compiled files

@@ -1,12 +1,12 @@
 import { defineConfig } from "allure";
-import 'dotenv/config';
+import "dotenv/config";
 
 const { TEST_ENV } = process.env;
-const isCI = TEST_ENV === 'ci';
+const isCI = TEST_ENV === "ci";
 
 export default defineConfig({
   name: "my-report",
   output: "allure-report",
-  historyPath: isCI ? "allure-history/allure-history.jsonl" : undefined,
+  historyPath: "allure-history/allure-history.jsonl",
   historyLimit: 10,
 });
