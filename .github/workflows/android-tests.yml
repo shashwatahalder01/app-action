@@ -25,11 +25,13 @@ env:
   FORCE_COLOR: 1
   TEST_ENV: ci
   # LOCAL_APP: ./apk/test.apk
+  # SendGrid environment variables for email notifications
   # SENDGRID_FROM: ${{secrets.SENDGRID_FROM}}
   # SENDGRID_HOST: ${{secrets.SENDGRID_HOST}}
   # SENDGRID_PORT: ${{secrets.SENDGRID_PORT}}
   # SENDGRID_USER: ${{secrets.SENDGRID_USER}}
   # SENDGRID_PASS: ${{secrets.SENDGRID_PASS}}
+  # GitHub environment variables for Slack notifications and report generation
   # SHA: ${{ github.event.pull_request.head.sha }}
   GITHUB_REPOSITORY: ${{github.repository}}
   GITHUB_RUN_NUMBER: ${{github.run_number}}
@@ -38,6 +40,7 @@ env:
   WORKFLOW: ${{github.workflow}}
   EVENT_NAME: ${{github.event_name}}
   GITHUB_TOKEN: ${{secrets.GT_TOKEN}}
+  # Slack environment variables for notifications
   SLACK_CHANNEL_ID: ${{secrets.SLACK_CHANNEL_ID}}
   SLACK_OAUTH_TOKEN: ${{secrets.SLACK_OAUTH_TOKEN}}
   CTRF_SKIP_FOOTER: true
