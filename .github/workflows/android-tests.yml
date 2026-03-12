@@ -59,6 +59,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 24
+          cache: "npm"
 
       - name: Install Dependencies
         run: |
@@ -72,7 +73,6 @@ jobs:
       - name: Send Slack notification with test report
         run: |
           npm run slack:report
-
 
       # # --- START OF ALLURE HISTORY LOGIC ---
 
