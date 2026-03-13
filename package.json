@@ -20,10 +20,7 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier . --check",
     "format:fix": "prettier . --write",
-    "report:clean": "rm -rf allure-results allure-report appium-logs screenshots screencasts",
-    "ci1": "npx slack-ctrf results ./ctrf/ctrf-tests-android.test.json",
-    "ci2": "npx slack-ctrf results ./ctrf/*.json"
-
+    "report:clean": "rm -rf allure-results allure-report appium-logs screenshots screencasts"
   },
   "repository": {
     "type": "git",
@@ -37,6 +34,7 @@
   },
   "homepage": "https://github.com/Chatway-app/qa-chatway-mobile#readme",
   "devDependencies": {
+    "@slack/web-api": "^7.15.0",
     "@wdio/allure-reporter": "^9.25.0",
     "@wdio/appium-service": "^9.25.0",
     "@wdio/cli": "^9.25.0",

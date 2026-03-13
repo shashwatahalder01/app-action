@@ -44,6 +44,10 @@ env:
   SLACK_CHANNEL_ID: ${{secrets.SLACK_CHANNEL_ID}}
   SLACK_OAUTH_TOKEN: ${{secrets.SLACK_OAUTH_TOKEN}}
   CTRF_SKIP_FOOTER: true
+  AI_SLACK_REPORTER: false
+  AI_MODEL: mistral
+  GOOGLE_API_KEY: ${{secrets.GOOGLE_API_KEY}}
+  MISTRAL_API_KEY: ${{secrets.MISTRAL_API_KEY}}
 
 jobs:
   test:
@@ -63,6 +67,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
+          exit 1
           npm ci || npm i
 
       - name: Run tests
@@ -71,6 +76,11 @@ jobs:
           npm run test
 
       - name: Send Slack notification with test report
+        run: |
+          npm run slack:report
+
+      - name: Send Slack notification for Action fail
+        if: always()
         run: |
           npm run slack:report
 

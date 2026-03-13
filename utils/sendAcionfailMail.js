@@ -1,17 +1,37 @@
-import { sendEmail } from "./sendEmail.js";
+import { sendEmail } from '@utils/mailer';
+// import 'dotenv/config'; // Enable for local testing
 
+const { GITHUB_REPOSITORY, GITHUB_RUN_ID, ACTOR, WORKFLOW, EVENT_NAME } = process.env;
 
 async function main() {
-    const subject = `❌ Workflow Failed: Push Notification Test`;
-    const message = `
-        🟠 Workflow Failure Alert (Non-Test Failure)
+  const runUrl = `https://github.com/${GITHUB_REPOSITORY || 'unknown'}/actions/runs/${GITHUB_RUN_ID || 'unknown'}`;
+  const previousRunUrl = `https://github.com/${GITHUB_REPOSITORY || 'unknown'}/actions?query=event%3Aschedule`;
 
-        The workflow failed, but the test suite did NOT execute.
-        This appears to be an infrastructure or environment issue 
-        (e.g., emulator startup failure, setup issue, or configuration error).
-        `;
+  const subject = `⚠️ Workflow Failed: Push Notification Test`;
+  const message = `
+                🟠 Workflow Failure Alert
+    
+                Workflow: Push Notification Test
+    
+                📊 Execution Details:
+                   - Workflow: ${WORKFLOW || 'unknown'}
+                   - Trigger: ${EVENT_NAME || 'unknown'}
+                   - Run by: ${ACTOR || 'unknown'}
+    
+                📌 What This Means:
+                   The failure occurred before or outside the actual test execution.
+                    No test result (pass/fail) was produced.
 
-    await sendEmail(subject, message);
+                🔎 Next Steps:
+                   Please review the workflow logs to identify the root cause.
+        
+                👉 View full logs here:
+                   ${runUrl}
+    
+                👉 Previous scheduled run logs are available at: ${previousRunUrl}
+                `;
+
+  await sendEmail(subject, message);
 }
 
 main().catch(console.error);
