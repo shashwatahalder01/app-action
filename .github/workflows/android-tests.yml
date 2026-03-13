@@ -82,7 +82,7 @@ jobs:
       - name: Send Slack notification for Action fail
         if: always()
         run: |
-          npm run slack:report
+          npm run slack:report:ci
 
       # # --- START OF ALLURE HISTORY LOGIC ---
 

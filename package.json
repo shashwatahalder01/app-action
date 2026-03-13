@@ -15,6 +15,7 @@
     "test": "npx wdio run wdio.conf.js",
     "mail:action-fail": "node ./utils/send-action-fail-mail.js",
     "slack:report": "node ./utils/slack-test-report.js",
+    "slack:report:ci": "node ./utils/slack-notifier.js",
     "update:packages": "npx npm-check-updates -u",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
