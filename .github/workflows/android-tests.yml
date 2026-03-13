@@ -67,12 +67,12 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          exit 1
           npm ci || npm i
 
       - name: Run tests
         continue-on-error: true
         run: |
+          exit 1
           npm run test
 
       - name: Send Slack notification with test report
